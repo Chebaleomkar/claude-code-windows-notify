@@ -1,10 +1,6 @@
 #!/bin/bash
-# Windows notification sender with deduplication
+# Ping — Windows notification sender with deduplication
 # Usage: notify.sh <event_type> <json_input>
-#
-# Sends a single Windows toast notification per event.
-# Deduplication via mkdir lock prevents duplicate toasts when
-# multiple hooks fire for the same Claude Code event.
 
 # Only run on Windows
 [ -z "$WINDIR" ] && exit 0
@@ -37,7 +33,7 @@ case "$EVENT_TYPE" in
         RESPONSE=""
         QUERY=""
         if [ -n "$TRANSCRIPT_PATH" ] && [ -f "$TRANSCRIPT_PATH" ]; then
-            sleep 0.3  # Let Claude Code flush the transcript
+            sleep 0.3
             RESPONSE=$(jq -rs '
                 [.[] | select(.type == "assistant" and .message.content)] | last |
                 [.message.content[] | select(.type == "text") | .text] | join(" ")
@@ -55,42 +51,41 @@ case "$EVENT_TYPE" in
             ' "$TRANSCRIPT_PATH" 2>/dev/null)
         fi
 
-        # Detect if Claude is waiting for input (response ends with ?)
-        # or if the stop was just a pause between turns
         STOP_HOOK_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active // false' 2>/dev/null)
         if [ "$STOP_HOOK_ACTIVE" = "true" ]; then
             exit 0
         fi
 
-        # Smart title: if response ends with ? or contains "which", "want", "should", "prefer"
-        # it's likely waiting for input, not a completed task
+        # Smart detection: input needed vs task completed
         if echo "$RESPONSE" | grep -qiE '\?\s*$|which (one|approach|option)|do you want|should I|would you (like|prefer)'; then
-            NOTIF_TITLE="⏳ Input Needed"
+            NOTIF_TITLE="Ping · Awaiting Response"
         else
-            NOTIF_TITLE="✅ Task Completed"
+            NOTIF_TITLE="Ping · Task Completed"
         fi
 
         if [ -n "$RESPONSE" ]; then
-            NOTIF_BODY="${RESPONSE:0:200}"
+            # Clean the response: strip markdown, trim whitespace
+            CLEAN=$(echo "$RESPONSE" | sed 's/[#*`_~]//g' | sed 's/^[[:space:]]*//' | head -c 180)
+            NOTIF_BODY="$CLEAN"
         elif [ -n "$QUERY" ]; then
-            NOTIF_BODY="Done: ${QUERY:0:200}"
+            NOTIF_BODY="Completed: ${QUERY:0:150}"
         else
-            NOTIF_BODY="Claude finished the task"
+            NOTIF_BODY="Claude has finished processing."
         fi
         ;;
     idle_prompt)
-        NOTIF_TITLE="⏳ Input Needed"
+        NOTIF_TITLE="Ping · Awaiting Response"
         MSG=$(echo "$INPUT" | jq -r '.message // empty' 2>/dev/null)
-        NOTIF_BODY="${MSG:-Claude is waiting for your input}"
+        NOTIF_BODY="${MSG:-Claude is waiting for your response.}"
         ;;
     permission_request)
-        NOTIF_TITLE="🔐 Permission Required"
+        NOTIF_TITLE="Ping · Action Required"
         TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // "a tool"' 2>/dev/null)
         TOOL_INPUT=$(echo "$INPUT" | jq -r '(.tool_input.command // .tool_input.file_path // empty)' 2>/dev/null)
         if [ -n "$TOOL_INPUT" ]; then
-            NOTIF_BODY="$TOOL_NAME: ${TOOL_INPUT:0:150}"
+            NOTIF_BODY="Approve $TOOL_NAME — ${TOOL_INPUT:0:120}"
         else
-            NOTIF_BODY="Claude wants to run: $TOOL_NAME"
+            NOTIF_BODY="Claude needs permission to run $TOOL_NAME"
         fi
         ;;
     session_start)
@@ -98,14 +93,14 @@ case "$EVENT_TYPE" in
         exit 0
         ;;
     *)
-        NOTIF_TITLE="Claude Code"
-        NOTIF_BODY="Needs your attention"
+        NOTIF_TITLE="Ping"
+        NOTIF_BODY="Claude Code needs your attention."
         ;;
 esac
 
 # === Add project context ===
 if [ -n "$PROJECT" ]; then
-    NOTIF_TITLE="$NOTIF_TITLE — $PROJECT"
+    NOTIF_TITLE="$NOTIF_TITLE · $PROJECT"
 fi
 
 # === Send notification ===
