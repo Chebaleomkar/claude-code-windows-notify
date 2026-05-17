@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "claude-code-windows-notify",
+  "name": "claude-code-ping",
   "version": "1.0.0",
   "description": "Ping — Native Windows desktop notifications for Claude Code",
   "owner": {

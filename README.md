@@ -11,8 +11,8 @@ Claude Code has no built-in notification support on Windows. When you switch to 
 ## Install
 
 ```bash
-claude plugin marketplace add Chebaleomkar/claude-code-windows-notify
-claude plugin install ping@claude-code-windows-notify
+claude plugin marketplace add Chebaleomkar/claude-code-ping
+claude plugin install ping@claude-code-ping
 ```
 
 Then restart Claude Code. You'll see:
@@ -84,7 +84,7 @@ Tests use a mock PowerShell — no actual notifications are sent. Safe to run an
 ## Uninstall
 
 ```bash
-claude plugin uninstall ping@claude-code-windows-notify
+claude plugin uninstall ping@claude-code-ping
 ```
 
 ## Troubleshooting
@@ -94,14 +94,14 @@ claude plugin uninstall ping@claude-code-windows-notify
 2. Check Focus Assist / Do Not Disturb is off
 3. Test manually:
    ```bash
-   powershell -ExecutionPolicy Bypass -File ~/.claude/plugins/cache/claude-code-windows-notify/ping/*/scripts/win-toast.ps1 -Title "Test" -Body "Hello"
+   powershell -ExecutionPolicy Bypass -File ~/.claude/plugins/cache/claude-code-ping/ping/*/scripts/win-toast.ps1 -Title "Test" -Body "Hello"
    ```
 
 **Multiple notifications per event:**
 Remove stale lock: `rmdir /tmp/claude-win-notify-lock`
 
 **Plugin not activating:**
-Check it's enabled: look for `"ping@claude-code-windows-notify": true` in `~/.claude/settings.json`
+Check it's enabled: look for `"ping@claude-code-ping": true` in `~/.claude/settings.json`
 
 ## Related
 
