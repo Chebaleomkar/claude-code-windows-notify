@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#4ECDC4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left angle bracket < -->
+  <path d="M28 128 L68 88 L68 104 L44 128 L68 152 L68 168 Z"
+        fill="url(#grad)" fill-rule="evenodd"/>
+
+  <!-- Right angle bracket > -->
+  <path d="M228 128 L188 88 L188 104 L212 128 L188 152 L188 168 Z"
+        fill="url(#grad)" fill-rule="evenodd"/>
+
+  <!-- Bell body -->
+  <path d="M128 36 C98 36 76 60 76 90 L76 132 L64 156 L192 156 L180 132 L180 90 C180 60 158 36 128 36 Z"
+        fill="url(#grad)"/>
+
+  <!-- Bell bottom clapper -->
+  <ellipse cx="128" cy="168" rx="24" ry="12" fill="url(#grad)"/>
+
+  <!-- Bell rim bar -->
+  <rect x="60" y="152" width="136" height="12" rx="6" fill="url(#grad)"/>
+
+  <!-- Notification dot -->
+  <circle cx="184" cy="52" r="20" fill="#FF6B6B"/>
+  <circle cx="184" cy="52" r="12" fill="#FF4757"/>
+</svg>
