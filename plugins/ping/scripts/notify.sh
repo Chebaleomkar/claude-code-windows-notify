@@ -15,8 +15,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EVENT_TYPE="${1:-unknown}"
 INPUT="${2:-{}}"
 
-# === Deduplication (8-second window) ===
-LOCK_DIR="/tmp/claude-win-notify-lock"
+# === Deduplication (8-second window, per event type) ===
+LOCK_DIR="/tmp/claude-win-notify-lock-${EVENT_TYPE}"
 if mkdir "$LOCK_DIR" 2>/dev/null; then
     (sleep 8 && rmdir "$LOCK_DIR" 2>/dev/null) &
 else
@@ -79,7 +79,7 @@ case "$EVENT_TYPE" in
         fi
         ;;
     session_start)
-        rmdir "$LOCK_DIR" 2>/dev/null
+        rmdir "$LOCK_DIR" 2>/dev/null || true
         exit 0
         ;;
     *)
