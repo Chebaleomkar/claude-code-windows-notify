@@ -58,9 +58,9 @@ case "$EVENT_TYPE" in
 
         # Smart detection: input needed vs task completed
         if echo "$RESPONSE" | grep -qiE '\?\s*$|which (one|approach|option)|do you want|should I|would you (like|prefer)'; then
-            NOTIF_TITLE="Ping · Awaiting Response"
+            NOTIF_TITLE="Awaiting Response"
         else
-            NOTIF_TITLE="Ping · Task Completed"
+            NOTIF_TITLE="Task Completed"
         fi
 
         if [ -n "$RESPONSE" ]; then
@@ -74,12 +74,12 @@ case "$EVENT_TYPE" in
         fi
         ;;
     idle_prompt)
-        NOTIF_TITLE="Ping · Awaiting Response"
+        NOTIF_TITLE="Awaiting Response"
         MSG=$(echo "$INPUT" | jq -r '.message // empty' 2>/dev/null)
         NOTIF_BODY="${MSG:-Claude is waiting for your response.}"
         ;;
     permission_request)
-        NOTIF_TITLE="Ping · Action Required"
+        NOTIF_TITLE="Action Required"
         TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // "a tool"' 2>/dev/null)
         TOOL_INPUT=$(echo "$INPUT" | jq -r '(.tool_input.command // .tool_input.file_path // empty)' 2>/dev/null)
         if [ -n "$TOOL_INPUT" ]; then
