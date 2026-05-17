@@ -1,0 +1,10 @@
+{
+  "name": "windows-notify",
+  "description": "Native Windows desktop notifications for Claude Code — works with any terminal (Warp, Windows Terminal, CMD, PowerShell, Git Bash)",
+  "version": "1.0.0",
+  "author": {
+    "name": "Omkar Chebale",
+    "url": "https://github.com/Chebaleomkar"
+  },
+  "homepage": "https://github.com/Chebaleomkar/claude-code-windows-notify"
+}
