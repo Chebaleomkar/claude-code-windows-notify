@@ -33,7 +33,6 @@ fi
 # === Build notification based on event type ===
 case "$EVENT_TYPE" in
     stop)
-        NOTIF_TITLE="✅ Task Completed"
         TRANSCRIPT_PATH=$(echo "$INPUT" | jq -r '.transcript_path // empty' 2>/dev/null)
         RESPONSE=""
         QUERY=""
@@ -55,6 +54,22 @@ case "$EVENT_TYPE" in
                 else .message.content // empty end
             ' "$TRANSCRIPT_PATH" 2>/dev/null)
         fi
+
+        # Detect if Claude is waiting for input (response ends with ?)
+        # or if the stop was just a pause between turns
+        STOP_HOOK_ACTIVE=$(echo "$INPUT" | jq -r '.stop_hook_active // false' 2>/dev/null)
+        if [ "$STOP_HOOK_ACTIVE" = "true" ]; then
+            exit 0
+        fi
+
+        # Smart title: if response ends with ? or contains "which", "want", "should", "prefer"
+        # it's likely waiting for input, not a completed task
+        if echo "$RESPONSE" | grep -qiE '\?\s*$|which (one|approach|option)|do you want|should I|would you (like|prefer)'; then
+            NOTIF_TITLE="⏳ Input Needed"
+        else
+            NOTIF_TITLE="✅ Task Completed"
+        fi
+
         if [ -n "$RESPONSE" ]; then
             NOTIF_BODY="${RESPONSE:0:200}"
         elif [ -n "$QUERY" ]; then
