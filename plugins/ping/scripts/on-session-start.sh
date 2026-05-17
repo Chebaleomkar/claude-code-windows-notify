@@ -11,5 +11,5 @@ fi
 
 # Show system message confirming the plugin is active
 cat << 'EOF'
-{"systemMessage": "🔔 Windows notifications active. You'll receive desktop toasts when tasks complete or input is needed."}
+{"systemMessage": "📡 Ping active. You'll receive desktop notifications when tasks complete or input is needed."}
 EOF

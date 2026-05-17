@@ -2,20 +2,20 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "claude-code-windows-notify",
   "version": "1.0.0",
-  "description": "Native Windows desktop notifications for Claude Code — works with any terminal",
+  "description": "Ping — Native Windows desktop notifications for Claude Code",
   "owner": {
     "name": "Omkar Chebale",
     "email": "omkarchebale0@gmail.com"
   },
   "plugins": [
     {
-      "name": "windows-notify",
-      "description": "Native Windows desktop notifications — get toasts when Claude completes tasks, needs input, or requires permission. Works with any terminal.",
+      "name": "ping",
+      "description": "Ping — Get desktop notifications when Claude completes tasks, needs input, or requires permission. Works with any terminal on Windows.",
       "version": "1.0.0",
       "author": {
         "name": "Omkar Chebale"
       },
-      "source": "./plugins/windows-notify",
+      "source": "./plugins/ping",
       "category": "productivity"
     }
   ]

@@ -1,18 +1,18 @@
-# claude-code-windows-notify
+# Ping
 
 **Native Windows desktop notifications for Claude Code — works with any terminal.**
 
-A Claude Code plugin that sends Windows toast notifications when Claude completes a task, needs input, or requires permission. Works with **any terminal** — Warp, Windows Terminal, CMD, PowerShell, Git Bash, or anything else.
+Ping is a Claude Code plugin that sends Windows toast notifications when Claude completes a task, needs input, or requires permission. Works with **any terminal** — Warp, Windows Terminal, CMD, PowerShell, Git Bash, or anything else.
 
 ## Why?
 
-Claude Code has no built-in notification support on Windows. When you switch to another window while Claude works, you have no way to know when it finishes. This plugin fixes that with native Windows toast notifications.
+Claude Code has no built-in notification support on Windows. When you switch to another window while Claude works, you have no way to know when it finishes. Ping fixes that with native Windows toast notifications.
 
 ## Install
 
 ```bash
 claude plugin marketplace add Chebaleomkar/claude-code-windows-notify
-claude plugin install windows-notify@claude-code-windows-notify
+claude plugin install ping@claude-code-windows-notify
 ```
 
 Then restart Claude Code. You'll see:
@@ -76,7 +76,7 @@ Claude Code event (Stop / Notification / PermissionRequest)
 Run the test suite:
 
 ```bash
-bash plugins/windows-notify/tests/test-notify.sh
+bash plugins/ping/tests/test-notify.sh
 ```
 
 Tests use a mock PowerShell — no actual notifications are sent. Safe to run anywhere.
@@ -84,7 +84,7 @@ Tests use a mock PowerShell — no actual notifications are sent. Safe to run an
 ## Uninstall
 
 ```bash
-claude plugin uninstall windows-notify@claude-code-windows-notify
+claude plugin uninstall ping@claude-code-windows-notify
 ```
 
 ## Troubleshooting
@@ -94,14 +94,14 @@ claude plugin uninstall windows-notify@claude-code-windows-notify
 2. Check Focus Assist / Do Not Disturb is off
 3. Test manually:
    ```bash
-   powershell -ExecutionPolicy Bypass -File ~/.claude/plugins/cache/claude-code-windows-notify/windows-notify/*/scripts/win-toast.ps1 -Title "Test" -Body "Hello"
+   powershell -ExecutionPolicy Bypass -File ~/.claude/plugins/cache/claude-code-windows-notify/ping/*/scripts/win-toast.ps1 -Title "Test" -Body "Hello"
    ```
 
 **Multiple notifications per event:**
 Remove stale lock: `rmdir /tmp/claude-win-notify-lock`
 
 **Plugin not activating:**
-Check it's enabled: look for `"windows-notify@claude-code-windows-notify": true` in `~/.claude/settings.json`
+Check it's enabled: look for `"ping@claude-code-windows-notify": true` in `~/.claude/settings.json`
 
 ## Related
 

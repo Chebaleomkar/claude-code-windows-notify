@@ -1,6 +1,6 @@
 {
-  "name": "windows-notify",
-  "description": "Native Windows desktop notifications for Claude Code — works with any terminal (Warp, Windows Terminal, CMD, PowerShell, Git Bash)",
+  "name": "ping",
+  "description": "Ping — Native Windows desktop notifications for Claude Code. Get notified when tasks complete, input is needed, or permissions are required.",
   "version": "1.0.0",
   "author": {
     "name": "Omkar Chebale",
